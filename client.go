@@ -1,6 +1,10 @@
 package mixpaysdkgo
 
 import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+
 	"github.com/go-resty/resty/v2"
 )
 
@@ -36,9 +40,12 @@ note	String, maximum 50. Payment note viewable by the payer.
 settlementMemo	String, maximum 200. A memo similar to Mixin Snapshots, this parameter you can customize. This parameter only takes effect when your settlementMethod is equal to mixin.
 */
 func (c *Client) GetPayments(req PaymentReq) (paymentResp *PaymentResp, err error) {
-	_, err = c.client.R().SetResult(&paymentResp).SetBody(req).Post(PaymentsUri)
+	response, err := c.client.R().SetResult(&paymentResp).SetBody(req).Post(PaymentsUri)
 	if err != nil {
 		return nil, err
+	}
+	if err := c.UnmarshalResponse(response, &paymentResp);err != nil {
+		return paymentResp, err
 	}
 	return paymentResp, nil
 }
@@ -55,10 +62,25 @@ func (c *Client) GetPaymentsEstimated(req PaymentReq) (resp *PaymentsEstimatedRe
 	if req.QuoteAmount != "" {
 		queryParams["quoteAmount"] = req.QuoteAmount
 	}
-	_, err = c.client.R().SetResult(&resp).
+	response, err := c.client.R().
 		SetQueryParams(queryParams).Get(PaymentsEstimatedUri)
 	if err != nil {
 		return nil, err
 	}
+	if err := c.UnmarshalResponse(response, &resp);err != nil {
+		return resp, err
+	}
 	return resp, nil
+}
+
+
+
+func (c *Client) UnmarshalResponse(response *resty.Response, v any) error {
+	if response.StatusCode() != http.StatusOK {
+		return fmt.Errorf("%s %s", response.Status(), response.Body())
+	}
+	if err := json.Unmarshal(response.Body(), &v); err != nil {
+		return fmt.Errorf("json unmarshal error %s", err.Error())
+	}
+	return nil
 }
