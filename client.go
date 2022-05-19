@@ -44,7 +44,19 @@ func (c *Client) GetPayments(req PaymentReq) (paymentResp *PaymentResp, err erro
 }
 
 func (c *Client) GetPaymentsEstimated(req PaymentReq) (resp *PaymentsEstimatedResp, err error) {
-	_, err = c.client.R().SetResult(&resp).SetBody(req).Post(PaymentsUri)
+	queryParams := map[string]string{
+		"paymentAssetId":    req.PaymentAssetId,
+		"quoteAssetId":      req.QuoteAssetId,
+		"settlementAssetId": req.SettlementAssetId,
+	}
+	if req.PaymentAmount != "" {
+		queryParams["paymentAmount"] = req.PaymentAmount
+	}
+	if req.QuoteAmount != "" {
+		queryParams["quoteAmount"] = req.QuoteAmount
+	}
+	_, err = c.client.R().SetResult(&resp).
+		SetQueryParams(queryParams).Get(PaymentsEstimatedUri)
 	if err != nil {
 		return nil, err
 	}
