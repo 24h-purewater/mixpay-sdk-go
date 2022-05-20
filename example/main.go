@@ -12,9 +12,9 @@ const (
 )
 
 func main() {
-	mixpay := mixpaysdkgo.New()
+	mixpay := mixpaysdk.New()
 	//eg. use btc to swap usdc
-	req := mixpaysdkgo.PaymentReq{
+	req := mixpaysdk.PaymentReq{
 		PaymentAssetId:    BTC,
 		PaymentAmount:     "0.01",
 		SettlementAssetId: USDC,

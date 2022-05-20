@@ -1,4 +1,4 @@
-package mixpaysdkgo
+package mixpaysdk
 
 type (
 	MixPayResp[T any] struct {
@@ -63,4 +63,18 @@ type (
 	}
 
 	PaymentsEstimatedResp = MixPayResp[PaymentsEstimated]
+
+	PaymentsResult struct {
+		Status           string `json:"status"`
+		QuoteAmount      string `json:"quoteAmount"`
+		QuoteSymbol      string `json:"quoteSymbol"`
+		PaymentAmount    string `json:"paymentAmount"`
+		PaymentSymbol    string `json:"paymentSymbol"`
+		Payee            string `json:"payee"`
+		PayeeMixinNumber string `json:"payeeMixinNumber"`
+		PayeeAvatarURL   string `json:"payeeAvatarUrl"`
+		Txid             string `json:"txid"`
+		Date             string `json:"date"`
+	}
+	PaymentsResultResp = MixPayResp[PaymentsResult]
 )
