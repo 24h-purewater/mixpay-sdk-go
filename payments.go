@@ -16,7 +16,7 @@ note	String, maximum 50. Payment note viewable by the payer.
 settlementMemo	String, maximum 200. A memo similar to Mixin Snapshots, this parameter you can customize. This parameter only takes effect when your settlementMethod is equal to mixin.
 */
 func (c *Client) GetPayments(req PaymentReq) (paymentResp *PaymentResp, err error) {
-	response, err := c.client.R().SetResult(&paymentResp).SetBody(req).Post(PaymentsUri)
+	response, err := c.client.R().SetBody(req).Post(PaymentsUri)
 	if err != nil {
 		return nil, err
 	}

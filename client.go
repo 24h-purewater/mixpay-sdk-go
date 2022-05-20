@@ -25,7 +25,6 @@ func New() *Client {
 	return &Client{client: c}
 }
 
-
 func (c *Client) UnmarshalResponse(response *resty.Response, v any) error {
 	if response.StatusCode() != http.StatusOK {
 		return fmt.Errorf("%s %s", response.Status(), response.Body())

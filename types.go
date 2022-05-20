@@ -74,7 +74,7 @@ type (
 		PayeeMixinNumber string `json:"payeeMixinNumber"`
 		PayeeAvatarURL   string `json:"payeeAvatarUrl"`
 		Txid             string `json:"txid"`
-		Date             string `json:"date"`
+		Date             any    `json:"date"`
 	}
 	PaymentsResultResp = MixPayResp[PaymentsResult]
 )
