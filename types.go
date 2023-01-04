@@ -78,7 +78,7 @@ type (
 		PayeeAvatarURL   string      `json:"payeeAvatarUrl"`
 		Txid             string      `json:"txid"`
 		BlockExplorerURL string      `json:"blockExplorerUrl"`
-		Date             int64       `json:"date"`
+		Date             any         `json:"date"`
 		SurplusAmount    string      `json:"surplusAmount"`
 		SurplusStatus    string      `json:"surplusStatus"`
 		Confirmations    int64       `json:"confirmations"`
